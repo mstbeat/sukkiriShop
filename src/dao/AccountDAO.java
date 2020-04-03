@@ -17,6 +17,12 @@ public class AccountDAO {
 	public Account findByLogin(Login login) {
 		Account account = null;
 
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException d) {
+            System.out.println("ドライバがありません" + d.getMessage());
+		}
+
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 			String sql = "SELECT USER_ID, PASS, MAIL, NAME, AGE FROM ACCOUNT WHERE USER_ID=? AND PASS=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
